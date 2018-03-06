@@ -72,7 +72,7 @@ class MultiCurl extends AbstractCurl implements BatchClientInterface
             throw new ClientException('Unable to create a new cURL multi handle');
         }
 
-        foreach (array_keys($this->queue) as $i) {
+        foreach ($this->queue as $i => $v) {
             if (3 == count($this->queue[$i])) {
                 // prepare curl handle
                 list($request, , $options) = $this->queue[$i];
@@ -95,7 +95,7 @@ class MultiCurl extends AbstractCurl implements BatchClientInterface
 
         // handle any completed requests
         while ($done = curl_multi_info_read($this->curlm)) {
-            foreach (array_keys($this->queue) as $i) {
+            foreach ($this->queue as $i => $v) {
                 list($request, $response, $options, $curl) = $this->queue[$i];
 
                 if ($curl !== $done['handle']) {
